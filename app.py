@@ -118,6 +118,7 @@ def stations():
 
 ##############################################
 
+# Tobs route
 @app.route("/api/v1.0/tobs")
 def tobs():
     # Session link
@@ -143,6 +144,7 @@ def tobs():
 
 ##############################################  
 
+# Start date route
 @app.route("/api/v1.0/<start_date>")
 def Start_date(start_date):
     # Session link
@@ -168,6 +170,7 @@ def Start_date(start_date):
 
 ##############################################  
 
+# Start and end date route
 @app.route("/api/v1.0/<start_date>/<end_date>")
 def Start_and_end_date(start_date, end_date):
     # Session link
