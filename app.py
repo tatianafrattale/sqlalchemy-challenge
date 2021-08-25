@@ -25,4 +25,29 @@ Station = Base.classes.station
 
 ############################################
 # Flask Set up
+############################################
 app = Flask(__name__)
+
+############################################
+# Flask routes
+############################################
+
+# Home page that lists all routes that are available
+@app.route("/")
+def home():
+     """List all available API routes."""
+     
+     return (
+        f"Welcome to my SQL-Alchemy App API!<br/>"
+        f"Available Routes:<br/>"
+        f"/api/v1.0/precipitation<br/>"
+        f"/api/v1.0/stations<br/>"
+        f"/api/v1.0/tobs<br/>"
+        f"/api/v1.0/<start><br/>"
+        f"/api/v1.0/<start>/<end><br/>"
+     )
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
