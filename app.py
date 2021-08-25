@@ -48,13 +48,23 @@ def home():
      """List all available API routes."""
      
      return (
-        f"Welcome to my SQL-Alchemy App API!<br/>"
+        f"Welcome to my Hawaii Climate SQL-Alchemy App API!<br/>"
         f"Available Routes:<br/>"
-        f"/api/v1.0/precipitation<br/>"
-        f"/api/v1.0/stations<br/>"
-        f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/[start_date format:yyyy-mm-dd]<br/>"
-        f"/api/v1.0/[start_date format:yyyy-mm-dd]/[end_date format:yyyy-mm-dd]<br/>"
+
+        f"A list of Precipitation data with dates:<br/>"
+        f"      /api/v1.0/precipitation<br/>"
+
+        f"A list of all stations and their names:<br/>"
+        f"      /api/v1.0/stations<br/>"
+
+        f"A list of Temperature Observations (TOBS) over the past year from the most recent date:<br/>"
+        f"      /api/v1.0/tobs<br/>"
+
+        f"A list of min, max. and average temperatures for the given start date (use 'yyyy-mm-dd' format):<br/>"
+        f"      /api/v1.0/[start_date format:yyyy-mm-dd]<br/>"
+
+        f"A list of min, max. and average temperatures for the given date range (use 'yyyy-mm-dd'/'yyyy-mm-dd' format):<br/>"
+        f"      /api/v1.0/[start_date format:yyyy-mm-dd]/[end_date format:yyyy-mm-dd]<br/>"
      )
 
 #############################################
@@ -178,7 +188,7 @@ def Start_and_end_date(start_date, end_date):
         start_end_date_dict["avg_temp"] = avg
 
         start_end_date_list.append(start_end_date_dict) 
-        
+
     return jsonify(start_end_date_list)
 
 ##############################################  
