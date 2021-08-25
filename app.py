@@ -76,6 +76,7 @@ def precipitation():
     for result in results:
         precip = {}
         precip[result[0]] = result[1]
+
         precipitation.append(precip)
 
     return jsonify(precipitation)
@@ -100,6 +101,7 @@ def stations():
         station_data = {}
         station_data["station"] = result[0]
         station_data["name"] = result[1]
+
         station_list.append(station_data)
 
     return jsonify(station_list)
@@ -149,6 +151,7 @@ def Start_date(start_date):
         start_date_dict["min_temp"] = min
         start_date_dict["max_temp"] = max
         start_date_dict["avg_temp"] = avg
+
         start_date_list.append(start_date_dict) 
 
     return jsonify(start_date_list)
@@ -173,7 +176,9 @@ def Start_and_end_date(start_date, end_date):
         start_end_date_dict["min_temp"] = min
         start_end_date_dict["max_temp"] = max
         start_end_date_dict["avg_temp"] = avg
+
         start_end_date_list.append(start_end_date_dict) 
+        
     return jsonify(start_end_date_list)
 
 ##############################################  
