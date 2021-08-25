@@ -106,7 +106,28 @@ def stations():
 
 ##############################################
 
-    
+@app.route("/api/v1.0/tobs")
+def tobs():
+    # Session link
+    session = Session(engine)
+
+    """Return a JSON list of temperature observations (TOBS) for the previous year"""
+    # Query
+    results = session.query(measurement.tobs, measurement.date).filter(measurement.date>=one_year_from_date).all()
+
+    session.close()
+
+    # Create tobs list
+    tobs_list = []
+    for result in results:
+        tobs_data = {}
+        tobs_data["temperature"] = result[0]
+        tobs_data["date"] = result[1]
+        tobs_list.append(tobs_data)
+
+    return jsonify(tobs_list) 
+
+##############################################  
 
 
 
