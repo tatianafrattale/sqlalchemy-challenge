@@ -57,6 +57,8 @@ def home():
         f"/api/v1.0/<start>/<end><br/>"
      )
 
+#############################################
+
 # Precipitation route
 @app.route("/api/v1.0/precipitation")
 def precipitation():
@@ -77,6 +79,35 @@ def precipitation():
         precipitation.append(precip)
 
     return jsonify(precipitation)
+
+##############################################
+
+# Stations route
+@app.route("/api/v1.0/stations")
+def stations():
+    # Session link
+    session = Session(engine)
+
+    """Return a JSON list of stations from the dataset"""
+    # Query
+    results = session.query(station.station, station.name).all()
+
+    session.close()
+
+    # Create station list
+    station_list = []
+    for result in results:
+        station_data = {}
+        station_data["station"] = result[0]
+        station_data["name"] = result[1]
+        station_list.append(station_data)
+
+    return jsonify(station_list)
+
+##############################################
+
+    
+
 
 
 # Run the app
