@@ -53,8 +53,8 @@ def home():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/<start><br/>"
-        f"/api/v1.0/<start>/<end><br/>"
+        f"/api/v1.0/[start_date format:yyyy-mm-dd]<br/>"
+        f"/api/v1.0/[start_date format:yyyy-mm-dd]/[end_date format:yyyy-mm-dd]<br/>"
      )
 
 #############################################
@@ -111,21 +111,46 @@ def tobs():
     # Session link
     session = Session(engine)
 
-    """Return a JSON list of temperature observations (TOBS) for the previous year"""
+    """Return a JSON list of temperature observations (TOBS) for the previous year of the most active station"""
     # Query
-    results = session.query(measurement.tobs, measurement.date).filter(measurement.date>=one_year_from_date).all()
+    results = session.query(measurement.date,  measurement.tobs,measurement.prcp).filter(measurement.date >= one_year_from_date).filter(measurement.station=='USC00519281').order_by(measurement.date).all()
 
     session.close()
 
     # Create tobs list
     tobs_list = []
-    for result in results:
-        tobs_data = {}
-        tobs_data["temperature"] = result[0]
-        tobs_data["date"] = result[1]
-        tobs_list.append(tobs_data)
+    for date, prcp, tobs in results:
+        tobs_dict = {}
+        tobs_dict["date"] = date
+        tobs_dict["prcp"] = prcp
+        tobs_dict["tobs"] = tobs
+        
+        tobs_list.append(tobs_dict)
 
-    return jsonify(tobs_list) 
+    return jsonify(tobs_list)
+
+##############################################  
+
+@app.route("/api/v1.0/<start_date>")
+def Start_date(start_date):
+    # Session link
+    session = Session(engine)
+
+    """When given the start only, calculate TMIN, TAVG, and TMAX for all dates greater than and equal to the start date."""
+    # Query
+    results = session.query(func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)).filter(measurement.date>= start_date).all()
+
+    session.close()
+
+    # Create tobs list
+    start_date_list = []
+    for min, avg, max in results:
+        start_date_dict = {}
+        start_date_dict["min_temp"] = min
+        start_date_dict["max_temp"] = max
+        start_date_dict["avg_temp"] = avg
+        start_date_list.append(start_date_dict) 
+    return jsonify(start_date_list)
 
 ##############################################  
 
